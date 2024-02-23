@@ -1,6 +1,6 @@
 import awsgi
 from flask import Flask, jsonify
-
+from faker import Faker
 app = Flask(__name__)
 
 @app.route('/monitor')
@@ -10,14 +10,14 @@ def monitor():
 @app.route('/register')
 def register():
     register_data = {
-        "Nombre": "Juan",
-        "Apellido": "Perez",
-        "Edad": 25,
-        "Email": "123@123.com",
-        "Telefono": "1234567890"
+        "Nombre": fake.first_name(),
+        "Apellido": fake.last_name(),
+        "Edad": fake.random_int(min=18, max=80),
+        "Email": fake.email(),
+        "Telefono": fake.phone_number()
         }
     
-    return jsonify(status=200, message='Usuario creado exitosamente')
+    return jsonify(status=200, data=register_data, message='Usuario creado exitosamente')
     
 def lambda_handler(event, context):
     return awsgi.response(app, event, context, base64_content_types={"image/png"})
