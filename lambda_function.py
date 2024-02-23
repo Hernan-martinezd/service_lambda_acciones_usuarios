@@ -1,7 +1,10 @@
 import awsgi
 from flask import Flask, jsonify
 from faker import Faker
+
 app = Flask(__name__)
+
+fake = Faker()
 
 @app.route('/monitor')
 def monitor():
